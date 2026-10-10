@@ -132,53 +132,53 @@ fun SettingsScreen(
                 )
             }
 
-            // Integrations Section
-            SettingsSection(title = "Integrations") {
-                val connectedAccount = userPreferences.googleCalendarAccount
-                val coroutineScope = rememberCoroutineScope()
-
-                SettingsItem(
-                    icon = Icons.Default.CalendarMonth,
-                    title = "Google Calendar Sync",
-                    subtitle = if (connectedAccount != null) "Connected as $connectedAccount" else "Not connected"
-                ) {
-                    if (connectedAccount != null) {
-                        Button(onClick = {
-                            viewModel.disconnectGoogleCalendar()
-                            coroutineScope.launch {
-                                snackbarHostState.showSnackbar("Disconnected from Google Calendar")
-                            }
-                        }) {
-                            Text("Disconnect")
-                        }
-                    } else {
-                        Button(onClick = onSignInGoogleCalendar) {
-                            Text("Connect")
-                        }
-                    }
-                }
-
-                // Reminder Time Selection for Google Calendar
-                Spacer(modifier = Modifier.height(8.dp))
-                ReminderTimeSelector(
-                    currentReminderMs = userPreferences.reminderTime,
-                    onReminderTimeChange = viewModel::updateReminderTime
-                )
-
-                // Sync Status Display (only show if connected)
-                if (connectedAccount != null) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    SyncStatusDisplay(
-                        syncStatus = userPreferences.syncStatus,
-                        lastSyncTime = userPreferences.lastSyncTime,
-                        errorMessage = userPreferences.syncErrorMessage,
-                        onManualSync = { viewModel.triggerManualSync() }
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
-                    CalendarIdDisplay(calendarId = userPreferences.googleCalendarId)
-                }
-            }
+//            // Integrations Section
+//            SettingsSection(title = "Integrations") {
+//                val connectedAccount = userPreferences.googleCalendarAccount
+//                val coroutineScope = rememberCoroutineScope()
+//
+//                SettingsItem(
+//                    icon = Icons.Default.CalendarMonth,
+//                    title = "Google Calendar Sync",
+//                    subtitle = if (connectedAccount != null) "Connected as $connectedAccount" else "Not connected"
+//                ) {
+//                    if (connectedAccount != null) {
+//                        Button(onClick = {
+//                            viewModel.disconnectGoogleCalendar()
+//                            coroutineScope.launch {
+//                                snackbarHostState.showSnackbar("Disconnected from Google Calendar")
+//                            }
+//                        }) {
+//                            Text("Disconnect")
+//                        }
+//                    } else {
+//                        Button(onClick = onSignInGoogleCalendar) {
+//                            Text("Connect")
+//                        }
+//                    }
+//                }
+//
+//                // Reminder Time Selection for Google Calendar
+//                Spacer(modifier = Modifier.height(8.dp))
+//                ReminderTimeSelector(
+//                    currentReminderMs = userPreferences.reminderTime,
+//                    onReminderTimeChange = viewModel::updateReminderTime
+//                )
+//
+//                // Sync Status Display (only show if connected)
+//                if (connectedAccount != null) {
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                    SyncStatusDisplay(
+//                        syncStatus = userPreferences.syncStatus,
+//                        lastSyncTime = userPreferences.lastSyncTime,
+//                        errorMessage = userPreferences.syncErrorMessage,
+//                        onManualSync = { viewModel.triggerManualSync() }
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(12.dp))
+//                    CalendarIdDisplay(calendarId = userPreferences.googleCalendarId)
+//                }
+//            }
 
             // Data Management Section
             SettingsSection(title = "Data Management") {
@@ -226,18 +226,18 @@ fun SettingsScreen(
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "v2.2",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "A simple and elegant to-do app built with Jetpack Compose and Material 3.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+//                        Spacer(modifier = Modifier.height(8.dp))
+//                        Text(
+//                            text = "v2.2",
+//                            style = MaterialTheme.typography.bodyMedium,
+//                            color = MaterialTheme.colorScheme.onSurfaceVariant
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "A simple and elegant to-do app built with Jetpack Compose and Material 3.",
+//                            style = MaterialTheme.typography.bodyMedium,
+//                            color = MaterialTheme.colorScheme.onSurfaceVariant
+//                        )
                     }
                 }
             }

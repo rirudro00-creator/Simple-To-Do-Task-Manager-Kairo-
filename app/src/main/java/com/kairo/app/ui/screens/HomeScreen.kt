@@ -62,201 +62,221 @@ fun HomeScreen(
         // Load categories for filtering
         // This would typically come from the repository
     }
-    
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        // Top App Bar
-        TopAppBar(
-            title = {
-                Text(
-                    text = "Kairo",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold
-                )
-            },
-            actions = {
-                IconButton(onClick = onNavigateToAddTask) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Add Task"
-                    )
-                }
-                IconButton(onClick = onNavigateToSettings) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "Settings"
-                    )
-                }
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = onNavigateToAddTask) {
+                Icon(Icons.Default.Add, contentDescription = "Add Task")
             }
-        )
-        
-        // Content
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            // Progress Overview
-            item {
-                AnimatedVisibility(
-                    visible = true, // You can change this to a state to control visibility
-                    enter = fadeIn(animationSpec = tween(durationMillis = 500)) + slideInVertically(initialOffsetY = { -40 }),
-                    exit = fadeOut(animationSpec = tween(durationMillis = 500)) + slideOutVertically(targetOffsetY = { -40 })
-                ) {
-                    ProgressOverview(
-                        statistics = statistics,
-                        isMinimized = isProgressMinimized.value,
-                        onToggleMinimize = { isProgressMinimized.value = !isProgressMinimized.value }
-                    )
-                }
-            }
-            
-            // Daily Quote
-            if (userPreferences.dailyQuoteEnabled) {
-                item {
-                    AnimatedVisibility(
-                        visible = true,
-                        enter = fadeIn(animationSpec = tween(durationMillis = 500, delayMillis = 200)) + slideInVertically(initialOffsetY = { -40 }),
-                        exit = fadeOut(animationSpec = tween(durationMillis = 500)) + slideOutVertically(targetOffsetY = { -40 })
-                    ) {
-                        DailyQuoteCard()
-                    }
-                }
-            }
-            
-            // Search and Filter
-            item {
-                SearchAndFilterBar(
-                    searchQuery = searchQuery,
-                    onSearchQueryChange = taskViewModel::updateSearchQuery,
-                    filterState = filterState,
-                    onFilterStateChange = taskViewModel::updateFilterState,
-                    availableCategories = emptyList() // TODO: Get from repository
-                )
-            }
-            
-            // Tasks Header
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+            // Top App Bar
+            TopAppBar(
+                title = {
                     Text(
-                        text = "Tasks",
-                        style = MaterialTheme.typography.titleLarge,
+                        text = "Kairo",
+                        style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
-                    
-                    if (statistics.completedTasks > 0) {
-                        TextButton(
-                            onClick = { showDeleteCompletedDialog = true }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete completed",
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text("Clear Completed")
+                },
+                actions = {
+                    IconButton(onClick = onNavigateToAddTask) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add Task"
+                        )
+                    }
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Settings"
+                        )
+                    }
+                }
+            )
+
+            // Content
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Progress Overview
+                item {
+                    AnimatedVisibility(
+                        visible = true, // You can change this to a state to control visibility
+                        enter = fadeIn(animationSpec = tween(durationMillis = 500)) + slideInVertically(
+                            initialOffsetY = { -40 }),
+                        exit = fadeOut(animationSpec = tween(durationMillis = 500)) + slideOutVertically(
+                            targetOffsetY = { -40 })
+                    ) {
+                        ProgressOverview(
+                            statistics = statistics,
+                            isMinimized = isProgressMinimized.value,
+                            onToggleMinimize = {
+                                isProgressMinimized.value = !isProgressMinimized.value
+                            }
+                        )
+                    }
+                }
+
+                // Daily Quote
+//                if (userPreferences.dailyQuoteEnabled) {
+//                    item {
+//                        AnimatedVisibility(
+//                            visible = true,
+//                            enter = fadeIn(
+//                                animationSpec = tween(
+//                                    durationMillis = 500,
+//                                    delayMillis = 200
+//                                )
+//                            ) + slideInVertically(initialOffsetY = { -40 }),
+//                            exit = fadeOut(animationSpec = tween(durationMillis = 500)) + slideOutVertically(
+//                                targetOffsetY = { -40 })
+//                        ) {
+//                            DailyQuoteCard()
+//                        }
+//                    }
+//                }
+
+                // Search and Filter
+                item {
+                    SearchAndFilterBar(
+                        searchQuery = searchQuery,
+                        onSearchQueryChange = taskViewModel::updateSearchQuery,
+                        filterState = filterState,
+                        onFilterStateChange = taskViewModel::updateFilterState,
+                        availableCategories = emptyList() // TODO: Get from repository
+                    )
+                }
+
+                // Tasks Header
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Tasks",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        if (statistics.completedTasks > 0) {
+                            TextButton(
+                                onClick = { showDeleteCompletedDialog = true }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete completed",
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Clear Completed")
+                            }
                         }
                     }
                 }
-            }
-            
-            // Tasks List
-            if (uiState.tasks.isEmpty()) {
-                item {
-                    EmptyTasksState(
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            } else {
-                items(
-                    items = uiState.tasks,
-                    key = { it.id }
-                ) { task ->
-                    val dismissState = rememberSwipeToDismissBoxState(
-                        confirmValueChange = { value ->
-                            if (value == SwipeToDismissBoxValue.EndToStart) {
-                                taskToDelete = task
-                                showDeleteTaskDialog = true
-                                false // Don't dismiss yet, wait for confirmation
-                            } else {
-                                false
-                            }
-                        }
-                    )
 
-                    AnimatedVisibility(
-                        visible = true,
-                        enter = fadeIn(animationSpec = tween(durationMillis = 300)) + slideInVertically(initialOffsetY = { -20 }),
-                        exit = fadeOut(animationSpec = tween(durationMillis = 300)) + slideOutVertically(targetOffsetY = { -20 })
-                    ) {
-                        SwipeToDismissBox(
-                            state = dismissState,
-                            modifier = Modifier.animateItemPlacement(),
-                            backgroundContent = {
-                                val color = when (dismissState.dismissDirection) {
-                                    SwipeToDismissBoxValue.EndToStart -> MaterialTheme.colorScheme.errorContainer
-                                    else -> Color.Transparent
+                // Tasks List
+                if (uiState.tasks.isEmpty()) {
+                    item {
+                        EmptyTasksState(
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                } else {
+                    items(
+                        items = uiState.tasks,
+                        key = { it.id }
+                    ) { task ->
+                        val dismissState = rememberSwipeToDismissBoxState(
+                            confirmValueChange = { value ->
+                                if (value == SwipeToDismissBoxValue.EndToStart) {
+                                    taskToDelete = task
+                                    showDeleteTaskDialog = true
+                                    false // Don't dismiss yet, wait for confirmation
+                                } else {
+                                    false
                                 }
-                                
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(
-                                            color = color,
-                                            shape = MaterialTheme.shapes.medium
-                                        )
-                                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                                ) {
-                                    if (dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .align(Alignment.CenterEnd),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.End
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.Delete,
-                                                contentDescription = "Delete",
-                                                tint = MaterialTheme.colorScheme.onErrorContainer,
-                                                modifier = Modifier.size(24.dp)
+                            }
+                        )
+
+                        AnimatedVisibility(
+                            visible = true,
+                            enter = fadeIn(animationSpec = tween(durationMillis = 300)) + slideInVertically(
+                                initialOffsetY = { -20 }),
+                            exit = fadeOut(animationSpec = tween(durationMillis = 300)) + slideOutVertically(
+                                targetOffsetY = { -20 })
+                        ) {
+                            SwipeToDismissBox(
+                                state = dismissState,
+                                modifier = Modifier.animateItemPlacement(),
+                                backgroundContent = {
+                                    val color = when (dismissState.dismissDirection) {
+                                        SwipeToDismissBoxValue.EndToStart -> MaterialTheme.colorScheme.errorContainer
+                                        else -> Color.Transparent
+                                    }
+
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(
+                                                color = color,
+                                                shape = MaterialTheme.shapes.medium
                                             )
-                                            Spacer(modifier = Modifier.width(8.dp))
-                                            Text(
-                                                text = "Delete",
-                                                color = MaterialTheme.colorScheme.onErrorContainer,
-                                                style = MaterialTheme.typography.titleMedium,
-                                                fontWeight = FontWeight.Medium
-                                            )
+                                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                                    ) {
+                                        if (dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .align(Alignment.CenterEnd),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.End
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Delete,
+                                                    contentDescription = "Delete",
+                                                    tint = MaterialTheme.colorScheme.onErrorContainer,
+                                                    modifier = Modifier.size(24.dp)
+                                                )
+                                                Spacer(modifier = Modifier.width(8.dp))
+                                                Text(
+                                                    text = "Delete",
+                                                    color = MaterialTheme.colorScheme.onErrorContainer,
+                                                    style = MaterialTheme.typography.titleMedium,
+                                                    fontWeight = FontWeight.Medium
+                                                )
+                                            }
                                         }
                                     }
                                 }
+                            ) {
+                                // Task Card Content
+                                TaskCard(
+                                    task = task,
+                                    onTaskClick = { onNavigateToEditTask(task.id) },
+                                    onToggleCompletion = { task ->
+                                        taskViewModel.toggleTaskCompletion(task)
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp)
+                                )
                             }
-                        ) {
-                            // Task Card Content
-                            TaskCard(
-                                task = task,
-                                onTaskClick = { onNavigateToEditTask(task.id) },
-                                onToggleCompletion = { task ->
-                                    taskViewModel.toggleTaskCompletion(task)
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 4.dp)
-                            )
                         }
                     }
                 }
             }
         }
     }
-    
     // Confirmation dialog for individual task deletion
     if (showDeleteTaskDialog && taskToDelete != null) {
         AlertDialog(

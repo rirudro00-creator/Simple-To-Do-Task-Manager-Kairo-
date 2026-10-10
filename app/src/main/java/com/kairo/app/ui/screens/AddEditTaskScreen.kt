@@ -1,6 +1,7 @@
 package com.kairo.app.ui.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -445,7 +446,9 @@ private fun RepeatIntervalSelector(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             RepeatInterval.values().forEach { interval ->
@@ -453,12 +456,18 @@ private fun RepeatIntervalSelector(
                     onClick = { onRepeatIntervalSelected(interval) },
                     label = { Text(interval.name.lowercase().capitalize(Locale.getDefault())) },
                     selected = selectedRepeatInterval == interval,
-                    modifier = Modifier.weight(1f)
+                    colors = androidx.compose.material3.FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = androidx.compose.ui.graphics.Color(0xFF8B5CF6),
+                        selectedLabelColor = androidx.compose.ui.graphics.Color.White
+                    ),
+                    modifier = Modifier
                 )
             }
         }
     }
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
